@@ -13,26 +13,17 @@ namespace Data.Guests
             _hotelDbContext = hotelDbContext;
 
         }
-        public async Task<int> Create(Guest guest)
+
+        async Task<Guest> IGuestRepository.Create(Guest guest)
         {
             _hotelDbContext.Guests.Add(guest);
             await _hotelDbContext.SaveChangesAsync();
-            return guest.Id;
+            return guest;
         }
 
-        public Task<Guest?> Get(int Id)
+        async Task<Guest?> IGuestRepository.Get(int Id)
         {
-            return _hotelDbContext.Guests?.Where(g => g.Id == Id).FirstOrDefaultAsync();
-        }
-
-        Task<Guest> IGuestRepository.Create(Guest guest)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Guest> IGuestRepository.Get(int Id)
-        {
-            throw new NotImplementedException();
+            return await _hotelDbContext.Guests?.Where(g => g.Id == Id).SingleOrDefaultAsync()!;
         }
     }
 }

@@ -10,11 +10,11 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_PID=Developer
       - MSSQL_USER=sa
-      - MSSQL_PASSWORD=_4l3x4ndr3D3M0r415 # Replace with a strong password
-      - MSSQL_DATABASE=HotelDemo # Set initial database name to HotelDemo
+      - MSSQL_PASSWORD=P@ssw0rd123!  # Set a strong password
+      - MSSQL_DATABASE=HotelDemo     # Initial database name
     volumes:
       - sqlserver_data:/var/opt/mssql
-    restart: always
+    restart: unless-stopped 
 
 volumes:
   sqlserver_data:

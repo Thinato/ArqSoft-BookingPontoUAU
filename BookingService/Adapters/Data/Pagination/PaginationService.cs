@@ -1,10 +1,12 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Shared.Pagination;
 
-namespace Shared.Pagination
+namespace Data.Pagination
 {
-    public class PaginationService
+    public class PaginationService<TEntity>
     {
-        public async Task<(IEnumerable<TEntity>, PaginationInfo)> Paginate<TEntity>(
+        public async Task<(IEnumerable<TEntity>, PaginationInfo)> Paginate(
                 IQueryable<TEntity> query,
                 PaginationOptions pagination)
         {
@@ -25,6 +27,25 @@ namespace Shared.Pagination
             var data = query.ToList();
 
             return (data, paginationInfo);
+        }
+    }
+
+    public static class PaginationResultExtension
+    {
+        public static IEnumerable<TDto> TransformData<TEntity, TDto>(
+                this (IEnumerable<TEntity>, PaginationInfo) paginationResult,
+                IMapper mapper)
+            where TDto : new()
+        {
+            var data = paginationResult.Item1.Select(e =>
+            {
+                var dto = new TDto();
+
+                mapper.Map(e, dto);
+                return dto;
+            });
+
+            return data;
         }
     }
 }

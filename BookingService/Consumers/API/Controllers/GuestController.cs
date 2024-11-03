@@ -1,5 +1,4 @@
-﻿using Application.Dtos;
-using Application.Guests.Dtos;
+﻿using Application.Guests.Dtos;
 using Application.Guests.Requests;
 using Application.Ports;
 using Microsoft.AspNetCore.Mvc;

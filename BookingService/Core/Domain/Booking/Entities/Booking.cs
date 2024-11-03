@@ -33,10 +33,10 @@ public class Booking
         Status = (Status, action) switch
         {
             (Status.Created, Action.Pay) => Status.Paid,
-            (Status.Created, Action.Cancel) => Status.Canceled,
+            (Status.Created, Action.Cancel) => Status.Cancelled,
             (Status.Paid, Action.Finish) => Status.Finished,
             (Status.Paid, Action.Refound) => Status.Refounded,
-            (Status.Canceled, Action.Reopen) => Status.Created,
+            (Status.Cancelled, Action.Reopen) => Status.Created,
 
             _ => Status
 
