@@ -1,0 +1,9 @@
+POST http://localhost:5035/room HTTP/1.1
+content-type: application/json
+
+{
+    "name": "WhateverRoom",
+    "level": 1,
+    "currency": "DOLLAR",
+    "value": 200
+}

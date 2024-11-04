@@ -24,17 +24,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<RoomDto>> Post(RoomDto room)
+        public async Task<ActionResult<RoomDto>> Post(CreateRoomRequest request)
         {
-            var resquest = new CreateRoomRequest
-            {
-                Level = room.Level,
-                Name = room.Name,
-                Currency = room.Price.Currency,
-                Value = room.Price.Value
-            };
-
-            var res = await _roomManager.Create(resquest);
+            var res = await _roomManager.Create(request);
 
             if (res.Success) return Created("", res.Data);
 

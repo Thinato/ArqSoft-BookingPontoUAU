@@ -3,6 +3,7 @@ using Application.Rooms.Dtos;
 using Domain.Rooms.ValueObjects;
 using Domain.Rooms.Enums;
 using Domain.Rooms.Entities;
+using Application.Rooms.Requests;
 
 namespace Application.Rooms
 {
@@ -21,6 +22,8 @@ namespace Application.Rooms
                     opt => opt.MapFrom(src => Enum.Parse<AcceptedCurrencies>(src.Currency, true)));
             
             CreateMap<Room, RoomDto>();
+
+            CreateMap<CreateRoomRequest, Room>();
         }
     }
 }
