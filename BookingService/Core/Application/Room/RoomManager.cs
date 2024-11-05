@@ -54,8 +54,11 @@ namespace Application.Rooms
                 Price = _mapper.Map(repoRoom.Price, new PriceDto())
             };
 
+            _mapper.Map(repoRoom, result);
+
             return new RoomResponse
             {
+                Success = result != null,
                 Data = result
             };
         }
