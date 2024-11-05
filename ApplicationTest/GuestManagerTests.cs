@@ -7,9 +7,7 @@ using Domain.Guests.Entities;
 using Domain.Guests.Enums;
 using Domain.Guests.Ports;
 using Domain.Guests.ValueObjects;
-using Domain.Rooms.Ports;
 using Moq;
-using Newtonsoft.Json;
 
 namespace ApplicationTest
 {
