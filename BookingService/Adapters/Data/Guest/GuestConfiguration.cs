@@ -12,12 +12,16 @@ namespace Data.Guests
         public void Configure(EntityTypeBuilder<Guest> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.OwnsOne(e => e.DocumentId)
-                .Property(e => e.IdNumber);
 
-            builder.OwnsOne(e => e.DocumentId)
-                .Property(e => e.DocumentType);//lambda
+            builder.Property(e => e.Name).HasColumnType("text");
+            builder.Property(e => e.Surname).HasColumnType("text");
+            builder.Property(e => e.Email).HasColumnType("text");
 
+            builder.OwnsOne(e => e.DocumentId, document =>
+            {
+                document.Property(d => d.IdNumber).HasColumnType("text").IsRequired();
+                document.Property(d => d.DocumentType).HasColumnType("integer").IsRequired();
+            });
         }
 
     }

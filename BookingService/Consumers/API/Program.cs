@@ -29,7 +29,7 @@ builder.Services.AddScoped<IGuestRepository, GuestRepository>();
 
 var connectionString = builder.Configuration.GetConnectionString("Main");
 builder.Services.AddDbContext<HotelDbContext>(
-    options => options.UseSqlServer(connectionString));
+    options => options.UseNpgsql(connectionString));
 
 #endregion
 
