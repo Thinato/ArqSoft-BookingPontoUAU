@@ -20,9 +20,9 @@ namespace Data.Rooms
 
         public async Task<Room> Create(Room room)
         {
+
             _hotelDbContext.Rooms.Add(room);
             await _hotelDbContext.SaveChangesAsync();
-
             return room;
         }
 

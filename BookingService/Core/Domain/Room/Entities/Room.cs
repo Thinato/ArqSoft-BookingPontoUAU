@@ -19,4 +19,9 @@ public class Room
 
     public bool PutInMaintanance() => InMaintenance = true;
     public bool EndMaintanance() => InMaintenance = false;
+
+    public override string ToString()
+    {
+        return $"Id: {Id},\nName: {Name},\nLevel: {Level},\nInMaintenance: {InMaintenance},\nHasGuest: {HasGuest},\nPrice: {{ {Price} }}";
+    }
 }

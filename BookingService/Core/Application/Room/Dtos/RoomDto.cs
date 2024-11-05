@@ -8,9 +8,11 @@ public class RoomDto
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public int Level { get; set; }
-    public PriceDto Price { get; set; }
+    public PriceDto Price { get; set; } = new PriceDto();
+    public bool InMaintenance { get; set; }
+    public bool HasGuest { get; set; }
 
-    public RoomDto() {}
+    public RoomDto() { }
 
     public static Room MapToEntity(Room dto)
     {
@@ -26,16 +28,20 @@ public class RoomDto
 
     }
 
-    public static Room MapToDto(Room room)
+    public static RoomDto MapToDto(Room room)
     {
-        return new Room
+        return new RoomDto
         {
             Id = room.Id,
             HasGuest = room.HasGuest,
             InMaintenance = room.InMaintenance,
             Level = room.Level,
             Name = room.Name,
-            Price = new Price(room.Price.Value, room.Price.Currency)
+            Price = new PriceDto
+            {
+                Value = room.Price.Value,
+                Currency = room.Price.Currency.ToString()
+            }
         };
     }
 }

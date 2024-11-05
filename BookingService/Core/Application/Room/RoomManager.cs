@@ -33,14 +33,9 @@ namespace Application.Rooms
             newRoom.InMaintenance = false;
             newRoom.HasGuest = false;
 
-            var savedRoom = await _repository.Create(newRoom);
+            await _repository.Create(newRoom);
 
-            var result = new RoomDto()
-            {
-                Price = _mapper.Map(savedRoom.Price, new PriceDto())
-            };
-
-            _mapper.Map(newRoom, result);
+            var result = RoomDto.MapToDto(newRoom);
 
             return new RoomResponse
             {

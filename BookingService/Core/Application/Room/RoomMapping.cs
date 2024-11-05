@@ -15,15 +15,17 @@ namespace Application.Rooms
                 .ForMember(
                     dest => dest.Currency,
                     opt => opt.MapFrom(src => src.Currency.ToString()));
-            
+
             CreateMap<PriceDto, Price>()
-                .ForMember(
-                    dest => dest.Currency,
-                    opt => opt.MapFrom(src => Enum.Parse<AcceptedCurrencies>(src.Currency, true)));
-            
+                .ConstructUsing(src => new Price(src.Value, Enum.Parse<AcceptedCurrencies>(src.Currency, true)));
+
             CreateMap<Room, RoomDto>();
 
-            CreateMap<CreateRoomRequest, Room>();
+            // logic for Price.
+            CreateMap<CreateRoomRequest, Room>()
+                .ForMember(
+                    dest => dest.Price,
+                    opt => opt.MapFrom(src => new Price(src.Value, Enum.Parse<AcceptedCurrencies>(src.Currency, true))));
         }
     }
 }

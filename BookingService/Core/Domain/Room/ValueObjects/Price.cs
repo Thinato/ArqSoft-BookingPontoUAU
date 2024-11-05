@@ -13,4 +13,9 @@ public class Price
 
     public decimal Value { get; }
     public AcceptedCurrencies Currency { get; }
+
+    public override string ToString()
+    {
+        return $"Value: {Value}, Currency: {Currency}";
+    }
 }
