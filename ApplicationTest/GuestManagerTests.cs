@@ -11,8 +11,6 @@ using Moq;
 
 namespace ApplicationTest
 {
-
-
     public class Tests
     {
         GuestManager guestManager;
@@ -24,13 +22,13 @@ namespace ApplicationTest
 
             fakeGuest = new Guest
             {
-                Id = 333,
-                Name = "Test",
-                DocumentId = new PersonId
-                {
-                    DocumentType = DocumentType.DriveLicence,
-                    IdNumber = "123"
-                }
+                 Id = 333,
+                 Name = "Test",
+                 DocumentId = new PersonId
+                 {
+                     DocumentType = DocumentType.DriveLicence,
+                     IdNumber = "123"
+                 }
             };
 
             var mapConfig = new MapperConfiguration(cfg =>
@@ -67,9 +65,6 @@ namespace ApplicationTest
             };
 
             var res = await guestManager.CreateGuest(request);
-
-            Console.WriteLine(res.Message);
-            Console.WriteLine(res.ErrorCode);
 
             Assert.IsNotNull(res);
             // Assert.AreEqual(res.ErrorCode, ErrorCode.MISSING_REQUIRED_INFORMATION);

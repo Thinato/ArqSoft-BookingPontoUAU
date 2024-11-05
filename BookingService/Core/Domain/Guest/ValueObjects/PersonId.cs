@@ -5,4 +5,9 @@ public class PersonId
 {
     public string IdNumber { get; set; }
     public DocumentType DocumentType { get; set; }
+
+    public override string ToString()
+    {
+        return $"IdNumber: {IdNumber}, DocumentType: {DocumentType}";
+    }
 }

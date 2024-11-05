@@ -12,7 +12,7 @@ public class Guest
     public string? Email { get; set; }
     public PersonId? DocumentId { get; set; }
 
-    private void ValidateState()
+    public void ValidateState()
     {
         if (
             DocumentId == null ||
@@ -34,21 +34,10 @@ public class Guest
         {
             throw new InvalidEmailException();
         }
-
     }
 
-    // public async Task Save(IGuestRepository guestRepository)
-    // {
-    //     this.ValidateState();
-
-    //     if (this.Id == 0)
-    //     {
-    //         this.Id = await guestRepository.Create(this);
-    //     }
-    //     else
-    //     {
-    //         //await
-    //     }
-    // }
-
+    public override string ToString()
+    {
+        return $"Id: {Id},\nName: {Name},\nSurname: {Surname},\nEmail: {Email},\nDocumentId: {{ {DocumentId} }}";
+    }
 }

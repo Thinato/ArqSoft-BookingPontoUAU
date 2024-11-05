@@ -48,7 +48,7 @@ namespace API.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("{roomId}")]
         public async Task<ActionResult<RoomDto>> Get(int roomId)
         {
             var res = await _roomManager.GetRoom(roomId);

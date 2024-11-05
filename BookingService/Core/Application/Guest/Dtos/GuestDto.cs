@@ -15,7 +15,7 @@ namespace Application.Guests.Dtos
 
         public static Guest MapToEntity(GuestDto guestDto)
         {
-            return new Guest
+            var guest = new Guest
             {
                 Id = guestDto.Id,
                 Name = guestDto.Name,
@@ -27,7 +27,7 @@ namespace Application.Guests.Dtos
                     DocumentType = (DocumentType)guestDto.IdTypeCode
                 }
             };
-
+            return guest;
         }
 
         public static GuestDto MapToDto(Guest guest)

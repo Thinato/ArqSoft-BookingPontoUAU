@@ -27,30 +27,20 @@ namespace Application.Rooms
 
         async Task<RoomResponse> IRoomManager.Create(CreateRoomRequest request)
         {
-            System.Console.WriteLine(request.Name);
-
             var newRoom = new Room();
             _mapper.Map(request, newRoom);
-
-            System.Console.WriteLine(newRoom.Name);
 
             newRoom.InMaintenance = false;
             newRoom.HasGuest = false;
 
             var savedRoom = await _repository.Create(newRoom);
 
-            System.Console.WriteLine(savedRoom.Name);
-
             var result = new RoomDto()
             {
                 Price = _mapper.Map(savedRoom.Price, new PriceDto())
             };
 
-            System.Console.WriteLine("Mapeei");
-
             _mapper.Map(newRoom, result);
-
-            System.Console.WriteLine("mapeei dnv");
 
             return new RoomResponse
             {

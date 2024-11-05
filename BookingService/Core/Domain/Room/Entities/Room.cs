@@ -9,7 +9,7 @@ public class Room
     public bool InMaintenance { get; set; }
     public bool HasGuest { get; set; }
 
-    public Price Price { get; set; }
+    public Price? Price { get; set; }
 
     public bool IsAvailable => InMaintenance || HasGuest;
 

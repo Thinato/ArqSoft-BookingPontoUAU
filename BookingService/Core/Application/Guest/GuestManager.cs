@@ -24,11 +24,15 @@ namespace Application.Guests
             {
                 var guest = GuestDto.MapToEntity(request.Data);
 
-                request.Data.Id = guest.Id;
-                var createdGuest = _guestRepository.Create(guest);
+                guest.ValidateState();
 
-                var createdGuestDto = new GuestDto();
-                _mapper.Map(createdGuest, createdGuestDto);
+                request.Data.Id = guest.Id;
+                var createdGuest = await _guestRepository.Create(guest);
+
+                var createdGuestDto = GuestDto.MapToDto(guest);
+                // to com preguica de entender esse auto mapper
+                // var createdGuestDto = new GuestDto();
+                // _mapper.Map(createdGuest, createdGuestDto);
 
                 return new GuestResponse
                 {
