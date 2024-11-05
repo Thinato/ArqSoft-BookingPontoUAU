@@ -7,29 +7,32 @@ using Domain.Guests.Entities;
 using Domain.Guests.Enums;
 using Domain.Guests.Ports;
 using Domain.Guests.ValueObjects;
+using Domain.Rooms.Ports;
 using Moq;
+using Newtonsoft.Json;
 
 namespace ApplicationTest
 {
     public class Tests
     {
-        GuestManager guestManager;
-        Guest fakeGuest;
+        private GuestManager _guestManager;
+        private Guest _fakeGuest;
+        private Mock<IGuestRepository> _fakeRepository;
         
         [SetUp]
         public void Setup()
         {
-            var fakeRepo = new Mock<IGuestRepository>();
+            _fakeRepository = new Mock<IGuestRepository>();
 
-            fakeGuest = new Guest
+            _fakeGuest = new Guest
             {
-                 Id = 333,
-                 Name = "Test",
-                 DocumentId = new PersonId
-                 {
-                     DocumentType = DocumentType.DriveLicence,
-                     IdNumber = "123"
-                 }
+                Id = 333,
+                Name = "Test",
+                DocumentId = new PersonId
+                {
+                    DocumentType = DocumentType.DriveLicence,
+                    IdNumber = "123"
+                }
             };
 
             var mapConfig = new MapperConfiguration(cfg =>
@@ -37,7 +40,7 @@ namespace ApplicationTest
                     cfg.AddProfile<GuestMapping>();
                 });
 
-            guestManager = new GuestManager(fakeRepo.Object, new Mapper(mapConfig));
+            _guestManager = new GuestManager(_fakeRepository.Object, new Mapper(mapConfig));
         }
 
         [Test]
@@ -65,7 +68,7 @@ namespace ApplicationTest
                 Data = guestDto,
             };
 
-            var res = await guestManager.CreateGuest(request);
+            var res = await _guestManager.CreateGuest(request);
 
             Assert.That(res, Is.Not.Null);
             Assert.Multiple(() =>
@@ -100,7 +103,7 @@ namespace ApplicationTest
                 Data = guestDto,
             };
 
-            var res = await guestManager.CreateGuest(request);
+            var res = await _guestManager.CreateGuest(request);
 
             Assert.That(res, Is.Not.Null);
             Assert.That(res.Success, Is.False);
@@ -138,7 +141,7 @@ namespace ApplicationTest
 
             var fakeRepo = new Mock<IGuestRepository>();
 
-            var res = await guestManager.CreateGuest(request);
+            var res = await _guestManager.CreateGuest(request);
 
             Assert.That(res, Is.Not.Null);
             Assert.That(res.Success, Is.False);
@@ -150,13 +153,10 @@ namespace ApplicationTest
         }
 
         [TestCase("emailsemarrobasemponto")]
-        [TestCase("b@b.com")]
-
         public async Task Should_Return_InvalidEmailException_WhenDocsAreInvalid(string email)
         {
             var guestDto = new GuestDto
             {
-
                 Name = "Fulano",
                 Surname = "De tal",
                 Email = email,
@@ -169,9 +169,7 @@ namespace ApplicationTest
                 Data = guestDto,
             };
 
-            var fakeRepo = new Mock<IGuestRepository>();
-
-            var res = await guestManager.CreateGuest(request);
+            var res = await _guestManager.CreateGuest(request);
 
             Assert.That(res, Is.Not.Null);
             Assert.That(res.Success, Is.False);
@@ -189,10 +187,10 @@ namespace ApplicationTest
 
             fakeRepo.Setup(x => x.Get(333)).Returns(Task.FromResult<Guest?>(null));
 
-            var res = await guestManager.GetGuest(333);
+            var res = await _guestManager.GetGuest(333);
 
             Assert.That(res, Is.Not.Null);
-            Assert.False(res.Success);
+            Assert.That(res.Success, Is.False);
             Assert.Multiple(() =>
             {
                 Assert.That(res.ErrorCode, Is.EqualTo(ErrorCode.GUEST_NOT_FOUND));
@@ -203,18 +201,16 @@ namespace ApplicationTest
         [Test]
         public async Task Should_Return_Guest_Success()
         {
-            var fakeRepo = new Mock<IGuestRepository>();
+            _fakeRepository.Setup(x => x.Get(333)).Returns(Task.FromResult<Guest?>(_fakeGuest));
 
-            fakeRepo.Setup(x => x.Get(333)).Returns(Task.FromResult<Guest?>(fakeGuest));
-
-            var res = await guestManager.GetGuest(333);
+            var res = await _guestManager.GetGuest(333);
 
             Assert.That(res, Is.Not.Null);
-            Assert.True(res.Success);
+            Assert.That(res.Success, Is.True);
             Assert.Multiple(() =>
             {
-                Assert.That(fakeGuest.Id, Is.EqualTo(res.Data.Id));
-                Assert.That(fakeGuest.Name, Is.EqualTo(res.Data.Name));
+                Assert.That(_fakeGuest.Id, Is.EqualTo(res.Data.Id));
+                Assert.That(_fakeGuest.Name, Is.EqualTo(res.Data.Name));
             });
         }
     }

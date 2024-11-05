@@ -1,4 +1,5 @@
-﻿using Application.Guests.Dtos;
+﻿using System.Text.Json.Serialization;
+using Application.Guests.Dtos;
 using Application.Guests.Requests;
 using Application.Ports;
 using Application.Responses;
@@ -82,7 +83,7 @@ namespace Application.Guests
         {
             var guest = await _guestRepository.Get(guestId);
 
-            if (guest == null)
+            if (guest is null)
             {
                 return new GuestResponse
                 {
@@ -94,8 +95,8 @@ namespace Application.Guests
 
             return new GuestResponse
             {
-                Data = GuestDto.MapToDto(guest),
                 Success = true,
+                Data = GuestDto.MapToDto(guest),
             };
         }
     }
