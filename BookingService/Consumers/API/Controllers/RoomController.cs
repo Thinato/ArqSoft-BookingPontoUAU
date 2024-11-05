@@ -48,8 +48,8 @@ namespace API.Controllers
 
         }
 
-        [HttpGet("{roomId}")]
-        public async Task<ActionResult<RoomDto>> Get(int roomId)
+        [HttpGet()]
+        public async Task<ActionResult<RoomDto>> Get([FromQuery] int roomId)
         {
             var res = await _roomManager.GetRoom(roomId);
 
@@ -58,7 +58,7 @@ namespace API.Controllers
             return NotFound(res);
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<RoomDto>>> GetAll([FromQuery] PaginationQuery pagination)
         {
             var res = await _roomManager.GetRooms(new PaginationQuery(pagination.Page, pagination.Count));
