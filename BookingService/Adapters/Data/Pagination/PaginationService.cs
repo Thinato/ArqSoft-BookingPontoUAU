@@ -1,3 +1,4 @@
+using System.Text.Json;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Shared.Pagination;
@@ -12,6 +13,8 @@ namespace Data.Pagination
         {
             var totalItems = await query.CountAsync<TEntity>();
 
+            System.Console.WriteLine($"Total items: {totalItems}");
+
             if (totalItems <= pagination.Offset)
                 throw new Exception("Offset exceeds maximum of items."); // TODO: create exception type and treat it on handler
 
@@ -24,7 +27,7 @@ namespace Data.Pagination
                 TotalPages = (int)Math.Ceiling((double)totalItems / pagination.Take),
             };
 
-            var data = query.ToList();
+            var data = await query.ToListAsync<TEntity>();
 
             return (data, paginationInfo);
         }
