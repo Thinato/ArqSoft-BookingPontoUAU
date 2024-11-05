@@ -6,7 +6,7 @@ public interface IRoomRepository
 {
     Task<bool> IsRoomAvailable(int roomId, DateTime startDate, DateTime endDate);
     Task<Room> Create(Room room);
-    Task<Room> GetRoom(int roomId);
+    Task<Room?> GetRoom(int roomId);
     Task<(IEnumerable<Room>, PaginationInfo)> ListRooms(PaginationQuery pagination);
     Task<Room> UpdateRoom(Room room);
 }

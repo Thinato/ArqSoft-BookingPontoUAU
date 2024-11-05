@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Data.Pagination;
 using Domain.Rooms.Entities;
 using Domain.Rooms.Ports;
@@ -26,9 +27,9 @@ namespace Data.Rooms
             return room;
         }
 
-        public Task<Room> GetRoom(int roomId)
+        public async Task<Room?> GetRoom(int roomId)
         {
-            throw new NotImplementedException();
+            return await _hotelDbContext.Rooms.FindAsync(roomId);
         }
 
         public async Task<bool> IsRoomAvailable(int roomId, DateTime startDate, DateTime endDate)

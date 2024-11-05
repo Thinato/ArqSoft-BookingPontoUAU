@@ -53,7 +53,7 @@ namespace API.Controllers
         {
             var res = await _roomManager.GetRoom(roomId);
 
-            if (res.Success) return Created("", res.Data);
+            if (res.Success) return Ok(res.Data);
 
             return NotFound(res);
         }
@@ -62,6 +62,8 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<RoomDto>>> GetAll([FromQuery] PaginationQuery pagination)
         {
             var res = await _roomManager.GetRooms(new PaginationQuery(pagination.Page, pagination.Count));
+
+            if (res.Success) return Ok(res.Data);
 
             return NotFound(res);
         }

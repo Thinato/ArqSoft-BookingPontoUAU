@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Application.Ports;
 using Application.Rooms.Dtos;
 using Application.Rooms.Requests;
@@ -62,6 +63,7 @@ namespace Application.Rooms
         public async Task<RoomResponseList> GetRooms(PaginationQuery pagination)
         {
             var roomsFetch = await _repository.ListRooms(pagination);
+
             var data = roomsFetch.Item1.Select(r =>
             {
                 var dto = new RoomDto()
@@ -75,6 +77,7 @@ namespace Application.Rooms
 
             var result = new RoomResponseList()
             {
+                Success = data.Count() > 0,
                 Data = data,
                 Pagination = roomsFetch.Item2
             };

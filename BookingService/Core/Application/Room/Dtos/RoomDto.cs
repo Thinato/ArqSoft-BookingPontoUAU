@@ -1,4 +1,5 @@
-﻿using Domain.Rooms.Entities;
+﻿using System.Text.Json;
+using Domain.Rooms.Entities;
 using Domain.Rooms.ValueObjects;
 
 namespace Application.Rooms.Dtos;
@@ -30,6 +31,7 @@ public class RoomDto
 
     public static RoomDto MapToDto(Room room)
     {
+        System.Console.WriteLine(JsonSerializer.Serialize(room));
         return new RoomDto
         {
             Id = room.Id,
