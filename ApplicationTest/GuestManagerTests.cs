@@ -15,6 +15,7 @@ namespace ApplicationTest
     {
         GuestManager guestManager;
         Guest fakeGuest;
+        
         [SetUp]
         public void Setup()
         {
@@ -66,14 +67,17 @@ namespace ApplicationTest
 
             var res = await guestManager.CreateGuest(request);
 
-            Assert.IsNotNull(res);
-            // Assert.AreEqual(res.ErrorCode, ErrorCode.MISSING_REQUIRED_INFORMATION);
-            Assert.True(res.Success);
-            Assert.AreEqual(res.Data.Name, guestDto.Name);
-            Assert.AreEqual(res.Data.Surname, guestDto.Surname);
-            Assert.AreEqual(res.Data.Email, guestDto.Email);
-            Assert.AreEqual(res.Data.IdNumber, guestDto.IdNumber);
-            Assert.AreEqual(res.Data.IdTypeCode, guestDto.IdTypeCode);
+            Assert.That(res, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                // Assert.AreEqual(res.ErrorCode, ErrorCode.MISSING_REQUIRED_INFORMATION);
+                Assert.That(res.Success, Is.True);
+                Assert.That(guestDto.Name, Is.EqualTo(res.Data.Name));
+                Assert.That(guestDto.Surname, Is.EqualTo(res.Data.Surname));
+                Assert.That(guestDto.Email, Is.EqualTo(res.Data.Email));
+                Assert.That(guestDto.IdNumber, Is.EqualTo(res.Data.IdNumber));
+                Assert.That(guestDto.IdTypeCode, Is.EqualTo(res.Data.IdTypeCode));
+            });
         }
 
         [TestCase("")]
@@ -98,12 +102,13 @@ namespace ApplicationTest
 
             var res = await guestManager.CreateGuest(request);
 
-            Assert.IsNotNull(res);
-            Assert.False(res.Success);
-
-            Assert.AreEqual(res.ErrorCode, ErrorCode.INVALID_PERSON_ID);
-            Assert.AreEqual(res.Message, "The passed ID is not valid");
-
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res.Success, Is.False);
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.ErrorCode, Is.EqualTo(ErrorCode.INVALID_PERSON_ID));
+                Assert.That(res.Message, Is.EqualTo("The passed ID is not valid"));
+            });
         }
 
         [TestCase("", "Surname teste", "email@email.com")]
@@ -112,9 +117,9 @@ namespace ApplicationTest
         [TestCase("", "", "")]
 
         public async Task Should_Return_MissingRequiredInformation_WhenDocsAreInvalid(
-            string name,
-            string surname,
-            string email)
+                string name,
+                string surname,
+                string email)
         {
             var guestDto = new GuestDto
             {
@@ -135,12 +140,13 @@ namespace ApplicationTest
 
             var res = await guestManager.CreateGuest(request);
 
-            Assert.IsNotNull(res);
-            Assert.False(res.Success);
-
-            Assert.AreEqual(res.ErrorCode, ErrorCode.MISSING_REQUIRED_INFORMATION);
-            Assert.AreEqual(res.Message, "Missing passed required information");
-
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res.Success, Is.False);
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.ErrorCode, Is.EqualTo(ErrorCode.MISSING_REQUIRED_INFORMATION));
+                Assert.That(res.Message, Is.EqualTo("Missing passed required information"));
+            });
         }
 
         [TestCase("emailsemarrobasemponto")]
@@ -167,49 +173,49 @@ namespace ApplicationTest
 
             var res = await guestManager.CreateGuest(request);
 
-            Assert.IsNotNull(res);
-            Assert.False(res.Success);
-
-            Assert.AreEqual(res.ErrorCode, ErrorCode.INVALID_EMAIL);
-            Assert.AreEqual(res.Message, "The given email is not valid");
-
+            Assert.That(res, Is.Not.Null);
+            Assert.That(res.Success, Is.False);
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.ErrorCode, Is.EqualTo(ErrorCode.INVALID_EMAIL));
+                Assert.That(res.Message, Is.EqualTo("The given email is not valid"));
+            });
         }
 
         [Test]
         public async Task Should_Return_GuestNotFound_WhenDocsAreInvalid()
         {
-
             var fakeRepo = new Mock<IGuestRepository>();
 
             fakeRepo.Setup(x => x.Get(333)).Returns(Task.FromResult<Guest?>(null));
 
             var res = await guestManager.GetGuest(333);
 
-            Assert.IsNotNull(res);
+            Assert.That(res, Is.Not.Null);
             Assert.False(res.Success);
-
-            Assert.AreEqual(res.ErrorCode, ErrorCode.GUEST_NOT_FOUND);
-            Assert.AreEqual(res.Message, "No guest record was found with the given id");
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(res.ErrorCode, Is.EqualTo(ErrorCode.GUEST_NOT_FOUND));
+                Assert.That(res.Message, Is.EqualTo("No guest record was found with the given id"));
+            });
         }
 
         [Test]
         public async Task Should_Return_Guest_Success()
         {
-
             var fakeRepo = new Mock<IGuestRepository>();
 
             fakeRepo.Setup(x => x.Get(333)).Returns(Task.FromResult<Guest?>(fakeGuest));
 
             var res = await guestManager.GetGuest(333);
 
-            Assert.IsNotNull(res);
+            Assert.That(res, Is.Not.Null);
             Assert.True(res.Success);
-
-            Assert.AreEqual(res.Data.Id, fakeGuest.Id);
-            Assert.AreEqual(res.Data.Name, fakeGuest.Name);
-
+            Assert.Multiple(() =>
+            {
+                Assert.That(fakeGuest.Id, Is.EqualTo(res.Data.Id));
+                Assert.That(fakeGuest.Name, Is.EqualTo(res.Data.Name));
+            });
         }
-
     }
 }
