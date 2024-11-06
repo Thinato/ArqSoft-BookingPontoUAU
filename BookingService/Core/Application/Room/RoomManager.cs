@@ -26,7 +26,7 @@ namespace Application.Rooms
             _mapper = new Mapper(mapConfig);
         }
 
-        async Task<RoomResponse> IRoomManager.Create(CreateRoomRequest request)
+        public async Task<RoomResponse> Create(CreateRoomRequest request)
         {
             var newRoom = new Room();
             _mapper.Map(request, newRoom);

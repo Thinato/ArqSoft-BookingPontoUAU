@@ -52,7 +52,7 @@ namespace ApplicationTest
             });
         }
 
-        [TestCase(1, 200)]
+        [TestCase(2, 100)]
         public async Task ShouldThrowPaginationOffset(int page, int count)
         {
             var options = new PaginationQuery(page, count).ToOptions();
