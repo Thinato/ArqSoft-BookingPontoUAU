@@ -31,14 +31,13 @@ public class RoomDto
 
     public static RoomDto MapToDto(Room room)
     {
-        System.Console.WriteLine(JsonSerializer.Serialize(room));
         return new RoomDto
         {
             Id = room.Id,
+            Name = room.Name,
             HasGuest = room.HasGuest,
             InMaintenance = room.InMaintenance,
             Level = room.Level,
-            Name = room.Name,
             Price = new PriceDto
             {
                 Value = room.Price.Value,

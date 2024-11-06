@@ -2,6 +2,7 @@ using System.Text.Json;
 using Data.Pagination;
 using Domain.Rooms.Entities;
 using Domain.Rooms.Ports;
+using Microsoft.EntityFrameworkCore;
 using Shared.Pagination;
 
 namespace Data.Rooms
@@ -29,7 +30,7 @@ namespace Data.Rooms
 
         public async Task<Room?> GetRoom(int roomId)
         {
-            return await _hotelDbContext.Rooms.FindAsync(roomId);
+            return await _hotelDbContext.Rooms.SingleOrDefaultAsync(r => r.Id == roomId);
         }
 
         public async Task<bool> IsRoomAvailable(int roomId, DateTime startDate, DateTime endDate)
