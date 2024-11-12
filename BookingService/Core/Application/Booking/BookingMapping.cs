@@ -1,4 +1,5 @@
 using Application.Bookings.Dtos;
+using Application.Bookings.Requests;
 using Application.Guests.Dtos;
 using Application.Rooms.Dtos;
 using Application.Rooms.Requests;
@@ -33,6 +34,14 @@ public class BookingMapping : Profile
             .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => src.CurrentStatus.ToString()))
             .ForMember(dest => dest.RoomId, opt => opt.MapFrom(src => src.Room))
             .ForMember(dest => dest.GuestId, opt => opt.MapFrom(src => src.Guest));
+
+        CreateMap<Booking, CreateBookingRequest>()
+            .ForMember(dest => dest.GuestId,
+                    opt => opt.Ignore())
+            .ForMember(dest => dest.GuestId,
+                    opt => opt.Ignore())
+            .ForMember(dest => dest.Status,
+                    opt => opt.Ignore());
 
         CreateMap<Guest, GuestDto>();
         CreateMap<PersonId, PersonId>();

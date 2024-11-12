@@ -6,6 +6,6 @@ public readonly record struct CreateBookingRequest(
     DateTime End,
     int RoomId,
     int GuestId,
-    int StatusId
+    string Status
 );
 

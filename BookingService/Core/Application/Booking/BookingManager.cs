@@ -1,24 +1,66 @@
 using Application.Bookings.Dtos;
 using Application.Bookings.Requests;
 using Application.Bookings.Responses;
+using Application.Errors;
 using Application.Ports;
+using AutoMapper;
+using Domain.Bookings.Entities;
+using Domain.Bookings.Enums;
 using Domain.Bookings.Ports;
+using Domain.Guests.Ports;
+using Domain.Rooms.Ports;
 using Shared.Pagination;
 
 namespace Application.Bookings
 {
     public class BookingManager : IBookingManager
     {
-        private IBookingRepository _repo;
+        private readonly IBookingRepository _repo;
+        private readonly IGuestRepository _guestRepo;
+        private readonly IRoomRepository _roomRepo;
+        private readonly IMapper _mapper;
 
-        public BookingManager(IBookingRepository repository)
+        public BookingManager(
+                IBookingRepository repository,
+                IGuestRepository guestRepository,
+                IRoomRepository roomRepository)
         {
             _repo = repository;
+            _guestRepo = guestRepository;
+            _roomRepo = roomRepository;
+
+            var mapConfig = new MapperConfiguration(cfg =>
+                {
+                    cfg.AddProfile<BookingMapping>();
+                });
+            _mapper = new Mapper(mapConfig);
         }
 
-        public Task<BookingResponse> Create(CreateBookingRequest request)
+        public async Task<BookingResponse> Create(CreateBookingRequest request)
         {
-            throw new NotImplementedException();
+            var guest = await _guestRepo.Get(request.GuestId)
+                    ?? throw new NotFoundException("Guest not found.");
+
+            var room = await _roomRepo.GetRoom(request.RoomId)
+                    ?? throw new NotFoundException("Room not found.");
+            
+            var status = Enum.Parse<Status>(request.Status, true);
+
+            var newBooking = new Booking()
+            {
+                Guest = guest,
+                Room = room,
+                Status = status
+            };
+
+            _mapper.Map(request, newBooking);
+
+            var savedBooking = await _repo.Create(newBooking);
+
+            return new BookingResponse()
+            {
+                Data = BookingDto.MapToDto(savedBooking)
+            };
         }
 
         public async Task<BookingResponseList> GetBookings(PaginationQuery pagination)

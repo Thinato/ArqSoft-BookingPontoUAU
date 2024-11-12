@@ -17,9 +17,9 @@ public class Booking
     public DateTime PlacedAt { get; set; }
     public DateTime Start { get; set; }
     public DateTime End { get; set; }
-    public Room Room { get; set; }
-    public Guest Guest { get; set; }
-    private Status Status { get; set; }
+    public required Room Room { get; set; }
+    public required Guest Guest { get; set; }
+    public required Status Status { get; set; }
     public Status CurrentStatus => Status;
 
     //Máquina de estado - POO
