@@ -10,6 +10,9 @@ using Domain.Rooms.Ports;
 using Data.Rooms;
 using Data.Pagination;
 using Domain.Rooms.Entities;
+using Application.Bookings;
+using Domain.Bookings.Ports;
+using Data.Bookings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,8 @@ builder.Services.AddScoped<IRoomManager, RoomManager>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IGuestManager, GuestManager>();
 builder.Services.AddScoped<IGuestRepository, GuestRepository>();
+builder.Services.AddScoped<IBookingManager, BookingManager>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 #endregion
 
 #region

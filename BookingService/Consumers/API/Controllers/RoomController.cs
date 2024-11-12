@@ -49,9 +49,9 @@ namespace API.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult<RoomDto>> Get([FromQuery] int roomId)
+        public async Task<ActionResult<RoomDto>> Get([FromQuery] int id)
         {
-            var res = await _roomManager.GetRoom(roomId);
+            var res = await _roomManager.GetRoom(id);
 
             if (res.Success) return Ok(res.Data);
 

@@ -12,7 +12,7 @@ namespace Data.Bookings
 
             builder.Property(b => b.PlacedAt)
                     .HasColumnType("DateTime");
-            
+
             builder.Property(b => b.Start)
                     .HasColumnType("DateTime");
 
