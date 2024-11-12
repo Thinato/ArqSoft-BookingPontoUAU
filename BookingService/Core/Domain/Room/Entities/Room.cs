@@ -1,4 +1,5 @@
-﻿using Domain.Rooms.ValueObjects;
+﻿using Domain.Bookings.Entities;
+using Domain.Rooms.ValueObjects;
 
 namespace Domain.Rooms.Entities;
 public class Room
@@ -13,6 +14,7 @@ public class Room
 
     public bool IsAvailable => InMaintenance || HasGuest;
 
+    public IEnumerable<Booking> Bookings = [];
 
     public void Occupy() => HasGuest = true;
     public void Disoccupy() => HasGuest = false;

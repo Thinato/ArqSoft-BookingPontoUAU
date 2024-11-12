@@ -1,4 +1,5 @@
-﻿using Domain.Guests.Exceptions;
+﻿using Domain.Bookings.Entities;
+using Domain.Guests.Exceptions;
 using Domain.Guests.Ports;
 using Domain.Guests.ValueObjects;
 using Shared;
@@ -11,6 +12,8 @@ public class Guest
     public string? Surname { get; set; }
     public string? Email { get; set; }
     public PersonId? DocumentId { get; set; }
+
+    public IEnumerable<Booking> Bookings = [];
 
     public void ValidateState()
     {
