@@ -69,13 +69,23 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> PutInMaintenance(int roomId)
+        public async Task<ActionResult> PutInMaintenance([FromQuery]int roomId)
         {
             var res = await _roomManager.PutInMaintanence(roomId);
 
             if (res) return Ok();
 
             return NotFound();
+        }
+
+        [HttpPatch]
+        public async Task<ActionResult> Patch(
+                [FromQuery] int roomId,
+                [FromBody] UpdateRoomRequest payload)
+        {
+            var res = await _roomManager.UpdateRoom(roomId, payload);
+            
+            return new OkObjectResult(res);
         }
     }
 }
