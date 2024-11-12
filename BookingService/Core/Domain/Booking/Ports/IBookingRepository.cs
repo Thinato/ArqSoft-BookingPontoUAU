@@ -9,7 +9,6 @@ public interface IBookingRepository
     Task<Booking?> Get(int bookingId);
     Task<(IEnumerable<Booking>, PaginationInfo)> ListBookings(PaginationQuery pagination);
     Task<(IEnumerable<Booking>, PaginationInfo)> ListBookingsByRoom(int roomId, PaginationQuery pagination);
-
     Task<(IEnumerable<Booking>, PaginationInfo)> ListBookingsByGuest(int guestId, PaginationQuery pagination);
 }
 

@@ -21,11 +21,6 @@ namespace Application.Bookings
             throw new NotImplementedException();
         }
 
-        public Task<BookingResponse> GetBooking(int roomId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<BookingResponseList> GetBookings(PaginationQuery pagination)
         {
             var bookingsFetch = await _repo.ListBookings(pagination);
@@ -34,6 +29,28 @@ namespace Application.Bookings
             {
                 Data = bookingsFetch.Item1.Select(BookingDto.MapToDto),
                 Pagination = bookingsFetch.Item2
+            };
+        }
+
+        public async Task<BookingResponseList> GetBookingsByGuest(int guestId, PaginationQuery pagination)
+        {
+            var bookingsList = await _repo.ListBookingsByGuest(guestId, pagination);
+
+            return new BookingResponseList()
+            {
+                Data = bookingsList.Item1.Select(BookingDto.MapToDto),
+                Pagination = bookingsList.Item2
+            };
+        }
+
+        public async Task<BookingResponseList> GetBookingsByRoom(int roomId, PaginationQuery pagination)
+        {
+            var bookingsList = await _repo.ListBookingsByRoom(roomId, pagination);
+
+            return new BookingResponseList()
+            {
+                Data = bookingsList.Item1.Select(BookingDto.MapToDto),
+                Pagination = bookingsList.Item2
             };
         }
 

@@ -8,7 +8,8 @@ namespace Application.Ports
     {
         public Task<BookingResponse> Create(CreateBookingRequest request);
         public Task<BookingResponseList> GetBookings(PaginationQuery pagination);
-        public Task<BookingResponse> GetBooking(int roomId);
+        public Task<BookingResponseList> GetBookingsByRoom(int roomId, PaginationQuery pagination);
+        public Task<BookingResponseList> GetBookingsByGuest(int guestId, PaginationQuery pagination);
         public Task<BookingResponse> PayBooking(CreateBookingRequest request);
     }
 }

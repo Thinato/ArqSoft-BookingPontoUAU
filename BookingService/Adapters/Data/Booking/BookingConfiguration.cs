@@ -22,6 +22,16 @@ namespace Data.Bookings
             builder.Property(b => b.CurrentStatus)
                     .HasColumnName("status")
                     .HasColumnType("SmallInt");
+        
+            builder.HasOne(b => b.Guest)
+                    .WithMany(g => g.Bookings)
+                    .HasForeignKey("guest_id")
+                    .HasPrincipalKey(g => g.Id);
+            
+            builder.HasOne(b => b.Room)
+                    .WithMany(r => r.Bookings)
+                    .HasForeignKey("room_id")
+                    .HasPrincipalKey(r => r.Id);
         }
     }
 }
