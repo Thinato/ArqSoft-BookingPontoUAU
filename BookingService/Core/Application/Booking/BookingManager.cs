@@ -63,6 +63,17 @@ namespace Application.Bookings
             };
         }
 
+        public async Task<BookingResponse> GetBooking(int bookingId)
+        {
+            var booking = await _repo.Get(bookingId)
+                    ?? throw new NotFoundException("Booking not found.");
+
+            return new BookingResponse()
+            {
+                Data = BookingDto.MapToDto(booking)
+            };
+        }
+
         public async Task<BookingResponseList> GetBookings(PaginationQuery pagination)
         {
             var bookingsFetch = await _repo.ListBookings(pagination);

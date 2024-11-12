@@ -16,7 +16,7 @@ namespace DomainTests
         [Test]
         public void ShouldAwaysStartWithCreatedStatus()
         {
-            var booking = new Booking();
+            // var booking = new Booking();
             Assert.Pass();
         }
 

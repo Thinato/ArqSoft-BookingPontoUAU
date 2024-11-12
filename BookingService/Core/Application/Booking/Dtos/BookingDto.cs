@@ -21,7 +21,6 @@ public class BookingDto
         {
             Id = dto.Id,
             PlacedAt = dto.PlacedAt,
-
         };
 
     }
