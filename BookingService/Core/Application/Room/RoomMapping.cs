@@ -30,7 +30,7 @@ namespace Application.Rooms
             CreateMap<UpdateRoomRequest, Room>()
                 .ForMember(
                     dest => dest.Price,
-                    opt => opt.MapFrom(src => new Price(src.Value, Enum.Parse<AcceptedCurrencies>(src.Currency, true))))
+                    opt => opt.MapFrom(src => new Price(src.Value!.Value, Enum.Parse<AcceptedCurrencies>(src.Currency!, true))))
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember is not null));
         }
     }
