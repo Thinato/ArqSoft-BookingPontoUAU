@@ -21,13 +21,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 #region
-builder.Services.AddScoped<PaginationService<Room>>();
-builder.Services.AddScoped<IRoomManager, RoomManager>();
+builder.Services.AddScoped<PaginationService>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-builder.Services.AddScoped<IGuestManager, GuestManager>();
 builder.Services.AddScoped<IGuestRepository, GuestRepository>();
-builder.Services.AddScoped<IBookingManager, BookingManager>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IRoomManager, RoomManager>();
+builder.Services.AddScoped<IGuestManager, GuestManager>();
+builder.Services.AddScoped<IBookingManager, BookingManager>();
 #endregion
 
 #region

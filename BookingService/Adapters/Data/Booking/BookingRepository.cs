@@ -10,11 +10,11 @@ namespace Data.Bookings
     {
         private readonly HotelDbContext _dbContext;
         private readonly DbSet<Booking> _dbSet;
-        private readonly PaginationService<Booking> _paginationService;
+        private readonly PaginationService _paginationService;
 
         public BookingRepository(
                 HotelDbContext dbContext,
-                PaginationService<Booking> paginationService)
+                PaginationService paginationService)
         {
             _dbContext = dbContext;
             _dbSet = dbContext.Bookings;

@@ -5,9 +5,9 @@ using Shared.Pagination;
 
 namespace Data.Pagination
 {
-    public class PaginationService<TEntity>
+    public class PaginationService
     {
-        public async Task<(IEnumerable<TEntity>, PaginationInfo)> Paginate(
+        public async Task<(IEnumerable<TEntity>, PaginationInfo)> Paginate<TEntity>(
                 IQueryable<TEntity> query,
                 PaginationOptions pagination)
         {

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class checkpoint : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,51 +48,51 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bokings",
+                name: "Bookings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PlacedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    End = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    RoomId = table.Column<int>(type: "integer", nullable: false),
-                    GuestId = table.Column<int>(type: "integer", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false)
+                    PlacedAt = table.Column<DateTime>(type: "TimeStamp", nullable: false),
+                    Start = table.Column<DateTime>(type: "TimeStamp", nullable: false),
+                    End = table.Column<DateTime>(type: "TimeStamp", nullable: false),
+                    room_id = table.Column<int>(type: "integer", nullable: false),
+                    guest_id = table.Column<int>(type: "integer", nullable: false),
+                    status = table.Column<short>(type: "SmallInt", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bokings", x => x.Id);
+                    table.PrimaryKey("PK_Bookings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bokings_Guests_GuestId",
-                        column: x => x.GuestId,
+                        name: "FK_Bookings_Guests_guest_id",
+                        column: x => x.guest_id,
                         principalTable: "Guests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Bokings_Rooms_RoomId",
-                        column: x => x.RoomId,
+                        name: "FK_Bookings_Rooms_room_id",
+                        column: x => x.room_id,
                         principalTable: "Rooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bokings_GuestId",
-                table: "Bokings",
-                column: "GuestId");
+                name: "IX_Bookings_guest_id",
+                table: "Bookings",
+                column: "guest_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bokings_RoomId",
-                table: "Bokings",
-                column: "RoomId");
+                name: "IX_Bookings_room_id",
+                table: "Bookings",
+                column: "room_id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Bokings");
+                name: "Bookings");
 
             migrationBuilder.DropTable(
                 name: "Guests");

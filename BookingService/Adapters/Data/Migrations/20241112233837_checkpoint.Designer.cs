@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20241112125034_BookingConfig")]
-    partial class BookingConfig
+    [Migration("20241112233837_checkpoint")]
+    partial class checkpoint
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,27 +34,31 @@ namespace Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("End")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("GuestId")
-                        .HasColumnType("integer");
+                        .HasColumnType("TimeStamp");
 
                     b.Property<DateTime>("PlacedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("integer");
+                        .HasColumnType("TimeStamp");
 
                     b.Property<DateTime>("Start")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("TimeStamp");
+
+                    b.Property<short>("Status")
+                        .HasColumnType("SmallInt")
+                        .HasColumnName("status");
+
+                    b.Property<int>("guest_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("room_id")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GuestId");
+                    b.HasIndex("guest_id");
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("room_id");
 
-                    b.ToTable("Bokings");
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Domain.Guests.Entities.Guest", b =>
@@ -108,14 +112,14 @@ namespace Data.Migrations
             modelBuilder.Entity("Domain.Bookings.Entities.Booking", b =>
                 {
                     b.HasOne("Domain.Guests.Entities.Guest", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestId")
+                        .WithMany("Bookings")
+                        .HasForeignKey("guest_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Rooms.Entities.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId")
+                        .WithMany("Bookings")
+                        .HasForeignKey("room_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -171,6 +175,16 @@ namespace Data.Migrations
                         });
 
                     b.Navigation("Price");
+                });
+
+            modelBuilder.Entity("Domain.Guests.Entities.Guest", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("Domain.Rooms.Entities.Room", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

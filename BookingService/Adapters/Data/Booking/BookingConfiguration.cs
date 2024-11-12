@@ -11,17 +11,19 @@ namespace Data.Bookings
             builder.HasKey(b => b.Id);
 
             builder.Property(b => b.PlacedAt)
-                    .HasColumnType("DateTime");
+                    .HasColumnType("TimeStamp");
 
             builder.Property(b => b.Start)
-                    .HasColumnType("DateTime");
+                    .HasColumnType("TimeStamp");
 
             builder.Property(b => b.End)
-                    .HasColumnType("DateTime");
+                    .HasColumnType("TimeStamp");
 
-            builder.Property(b => b.CurrentStatus)
+            builder.Property(b => b.Status)
                     .HasColumnName("status")
                     .HasColumnType("SmallInt");
+
+            builder.Ignore(b => b.CurrentStatus);
         
             builder.HasOne(b => b.Guest)
                     .WithMany(g => g.Bookings)

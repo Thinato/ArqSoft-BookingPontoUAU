@@ -10,11 +10,11 @@ namespace Data.Rooms
     public class RoomRepository : IRoomRepository
     {
         private readonly HotelDbContext _hotelDbContext;
-        private readonly PaginationService<Room> _paginationService;
+        private readonly PaginationService _paginationService;
 
         public RoomRepository(
                 HotelDbContext hotelDbContext,
-                PaginationService<Room> paginationService)
+                PaginationService paginationService)
         {
             _hotelDbContext = hotelDbContext;
             _paginationService = paginationService;
