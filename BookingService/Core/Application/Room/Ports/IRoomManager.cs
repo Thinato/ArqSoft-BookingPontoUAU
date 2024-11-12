@@ -11,5 +11,6 @@ namespace Application.Ports
         public Task<bool> PutInMaintanence(int roomId);
         public Task<RoomResponseList> GetRooms(PaginationQuery pagination);
         public Task<RoomResponse> GetRoom(int roomId);
+        public Task<RoomResponse> UpdateRoom(int roomId, UpdateRoomRequest request);
     }
 }

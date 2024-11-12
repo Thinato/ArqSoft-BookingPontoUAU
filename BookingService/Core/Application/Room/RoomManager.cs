@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Application.Errors;
 using Application.Ports;
 using Application.Rooms.Dtos;
 using Application.Rooms.Requests;
@@ -47,7 +48,8 @@ namespace Application.Rooms
 
         public async Task<RoomResponse> GetRoom(int roomId)
         {
-            var repoRoom = await _repository.GetRoom(roomId);
+            var repoRoom = await _repository.GetRoom(roomId)
+                    ?? throw new NotFoundException("Room not found.");
 
             var result = new RoomDto()
             {
@@ -90,7 +92,8 @@ namespace Application.Rooms
 
         public async Task<bool> PutInMaintanence(int roomId)
         {
-            var repoRoom = await _repository.GetRoom(roomId);
+            var repoRoom = await _repository.GetRoom(roomId)
+                    ?? throw new NotFoundException("Room not found.");
 
             if (repoRoom.InMaintenance)
             {
@@ -106,6 +109,22 @@ namespace Application.Rooms
             }
 
             return false;
+        }
+
+        public async Task<RoomResponse> UpdateRoom(int roomId, UpdateRoomRequest request)
+        {
+            var room = await _repository.GetRoom(roomId)
+                    ?? throw new NotFoundException("Room not found.");
+            
+            _mapper.Map(request, room);
+
+            var savedRoom = await _repository.UpdateRoom(room)
+                    ?? throw new UpdateException("Invalid room state for update.");
+
+            return new RoomResponse()
+            {
+                Data = RoomDto.MapToDto(savedRoom),
+            };
         }
     }
 }
