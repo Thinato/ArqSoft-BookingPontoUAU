@@ -1,4 +1,5 @@
-﻿using Data.Guests;
+﻿using Data.Bookings;
+using Data.Guests;
 using Data.Rooms;
 using Domain.Bookings.Entities;
 using Domain.Guests.Entities;
@@ -19,6 +20,7 @@ namespace Data
         {
             modelBuilder.ApplyConfiguration(new GuestConfiguration());
             modelBuilder.ApplyConfiguration(new RoomConfiguration());
+            modelBuilder.ApplyConfiguration(new BookingConfiguration());
         }
 
     }

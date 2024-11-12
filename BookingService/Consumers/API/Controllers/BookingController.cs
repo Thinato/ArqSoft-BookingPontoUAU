@@ -2,6 +2,7 @@ using Application.Bookings.Dtos;
 using Application.Bookings.Requests;
 using Application.Ports;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Pagination;
 
 namespace API.Controllers
 {
@@ -21,48 +22,72 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<BookingDto>> Post(BookingDto guest)
+        public async Task<ActionResult<BookingDto>> Create(CreateBookingRequest request)
         {
-            throw new NotImplementedException();
-            var resquest = new CreateBookingRequest
+            var res = await _bookingManager.Create(request);
+
+            if (res.Success) return Created("", res.Data);
+
+            if (res.ErrorCode == Application.ErrorCode.NOT_FOUND)
             {
-                Data = guest,
-            };
+                return BadRequest(res);
+            }
+            else if (res.ErrorCode == Application.ErrorCode.MISSING_REQUIRED_INFORMATION)
+            {
+                return BadRequest(res);
+            }
+            else if (res.ErrorCode == Application.ErrorCode.COULD_NOT_STORE_DATA)
+            {
+                return BadRequest(res);
+            }
 
-            // // var res = await _bookingManager.CreateBooking(resquest);
-
-            // if (res.Success) return Created("", res.Data);
-
-            // if (res.ErrorCode == Application.ErrorCode.NOT_FOUND)
-            // {
-            //     return BadRequest(res);
-            // }
-            // else if (res.ErrorCode == Application.ErrorCode.MISSING_REQUIRED_INFORMATION)
-            // {
-            //     return BadRequest(res);
-            // }
-            // else if (res.ErrorCode == Application.ErrorCode.COULD_NOT_STORE_DATA)
-            // {
-            //     return BadRequest(res);
-            // }
-
-
-
-
-            // _logger.LogError("Response with unkwn ErrorCode Returned", res);
-            // return BadRequest();
+            _logger.LogError("Response with unkwn ErrorCode Returned", res);
+            return BadRequest();
 
         }
 
         [HttpGet]
-        public async Task<ActionResult<BookingDto>> Get(int guestId)
+        public async Task<ActionResult<BookingDto>> Get([FromQuery] int id)
         {
-            throw new NotImplementedException();
-            // var res = await _bookingManager.GetGuest(guestId);
+            var res = await _bookingManager.GetBooking(id);
 
-            // if (res.Success) return Created("", res.Data);
+            if (res.Success) return Created("", res.Data);
 
-            // return NotFound(res);
+            return NotFound(res);
+        }
+
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<BookingDto>>> GetAll([FromQuery] PaginationQuery pagination)
+        {
+            var res = await _bookingManager.GetBookings(new PaginationQuery(pagination.Page, pagination.Count));
+
+            if (res.Success) return Ok(res.Data);
+
+            return NotFound(res);
+        }
+
+        [HttpPut("pay")]
+        public async Task<ActionResult<BookingDto>> PayBooking(CreateBookingRequest request)
+        {
+            var res = await _bookingManager.PayBooking(request);
+
+            if (res.Success) return Created("", res.Data);
+
+            if (res.ErrorCode == Application.ErrorCode.NOT_FOUND)
+            {
+                return BadRequest(res);
+            }
+            else if (res.ErrorCode == Application.ErrorCode.MISSING_REQUIRED_INFORMATION)
+            {
+                return BadRequest(res);
+            }
+            else if (res.ErrorCode == Application.ErrorCode.COULD_NOT_STORE_DATA)
+            {
+                return BadRequest(res);
+            }
+
+            _logger.LogError("Response with unkwn ErrorCode Returned", res);
+            return BadRequest();
         }
     }
 }

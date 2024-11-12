@@ -3,7 +3,7 @@
 namespace Domain.Rooms.ValueObjects;
 public class Price
 {
-    protected Price() { }
+    protected Price(decimal value) { }
 
     public Price(decimal value, AcceptedCurrencies currency)
     {
