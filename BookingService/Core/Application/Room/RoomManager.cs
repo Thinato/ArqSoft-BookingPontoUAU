@@ -82,7 +82,7 @@ namespace Application.Rooms
 
             var result = new RoomResponseList()
             {
-                Success = data.Count() > 0,
+                Success = data.Any(),
                 Data = data,
                 Pagination = roomsFetch.Item2
             };

@@ -3,6 +3,7 @@ using Application.Guests.Requests;
 using Application.Ports;
 using Application.Rooms.Dtos;
 using Application.Rooms.Requests;
+using Application.Rooms.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Pagination;
 
@@ -59,13 +60,11 @@ namespace API.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<RoomDto>>> GetAll([FromQuery] PaginationQuery pagination)
+        public async Task<ActionResult> GetAll([FromQuery] PaginationQuery pagination)
         {
-            var res = await _roomManager.GetRooms(new PaginationQuery(pagination.Page, pagination.Count));
+            var res = await _roomManager.GetRooms(pagination);
 
-            if (res.Success) return Ok(res.Data);
-
-            return NotFound(res);
+            return Created("", res);
         }
 
         [HttpPut]

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Data.Pagination;
 using Domain.Rooms.Entities;
 using Domain.Rooms.Ports;
