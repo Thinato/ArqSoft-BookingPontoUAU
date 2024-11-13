@@ -5,7 +5,7 @@ namespace Application.Rooms.Responses
 {
     public class RoomResponseList : Response
     {
-        public IEnumerable<RoomDto> Data;
-        public PaginationInfo Pagination;
+        public IEnumerable<RoomDto> Data { get; set; }
+        public PaginationInfo Pagination { get; set; }
     }
 }

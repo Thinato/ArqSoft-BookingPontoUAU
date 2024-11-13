@@ -8,5 +8,5 @@ public interface IRoomRepository
     Task<Room> Create(Room room);
     Task<Room?> GetRoom(int roomId);
     Task<(IEnumerable<Room>, PaginationInfo)> ListRooms(PaginationQuery pagination);
-    Task<Room> UpdateRoom(Room room);
+    Task<Room?> UpdateRoom(Room room);
 }

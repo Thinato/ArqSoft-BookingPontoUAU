@@ -49,9 +49,17 @@ namespace Data.Rooms
             return result;
         }
 
-        public Task<Room> UpdateRoom(Room room)
+        public async Task<Room?> UpdateRoom(Room room)
         {
-            throw new NotImplementedException();
+            var currentRoom = await _hotelDbContext.Rooms.SingleOrDefaultAsync(r => r.Id.Equals(room.Id));
+
+            if (currentRoom is null)
+                return null;
+
+            _hotelDbContext.Entry(currentRoom).CurrentValues.SetValues(room);
+            await _hotelDbContext.SaveChangesAsync();
+
+            return room;
         }
     }
 }

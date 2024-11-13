@@ -115,8 +115,12 @@ namespace Application.Rooms
         {
             var room = await _repository.GetRoom(roomId)
                     ?? throw new NotFoundException("Room not found.");
+
+            System.Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(request));
             
             _mapper.Map(request, room);
+
+            System.Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(room));
 
             var savedRoom = await _repository.UpdateRoom(room)
                     ?? throw new UpdateException("Invalid room state for update.");
