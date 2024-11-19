@@ -53,12 +53,8 @@ namespace API.Controllers
                 return BadRequest(res);
             }
 
-
-
-
             _logger.LogError("Response with unkwn ErrorCode Returned", res);
             return BadRequest();
-
         }
 
         [HttpGet]
