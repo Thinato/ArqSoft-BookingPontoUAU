@@ -5,12 +5,12 @@ namespace Application.Responses
 {
     public class GuestResponse : Response
     {
-        public GuestDto Data;
+        public GuestDto Data { get; set; }
     }
 
     public class GuestListResponse : Response
     {
-        public required IEnumerable<GuestDto> Data;
-        public required PaginationInfo PaginationInfo;
+        public required IEnumerable<GuestDto> Data { get; set; }
+        public required PaginationInfo PaginationInfo { get; set; }
     }
 }

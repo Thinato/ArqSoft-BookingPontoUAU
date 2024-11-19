@@ -109,6 +109,7 @@ namespace Application.Guests
 
             return new GuestListResponse
             {
+                Success = true,
                 Data = result.Item1.Select(GuestDto.MapToDto),
                 PaginationInfo = result.Item2,
             };

@@ -1,7 +1,9 @@
 ﻿using Application.Guests.Dtos;
 using Application.Guests.Requests;
 using Application.Ports;
+using Application.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Pagination;
 
 namespace API.Controllers
 {
@@ -65,6 +67,15 @@ namespace API.Controllers
             if (res.Success) return Created("", res.Data);
 
             return NotFound(res);
+        }
+
+        [HttpGet]
+        [Route("all")]
+        public async Task<ActionResult<GuestListResponse>> GetMany(
+                [FromQuery] PaginationQuery query)
+        {
+            var result = await _guestManager.GetManyGuests(query);
+            return Ok(result);
         }
     }
 }
