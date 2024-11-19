@@ -14,6 +14,14 @@ namespace Data.Pagination
         {
             var totalItems = await query.CountAsync();
 
+            if (totalItems == 0)
+                return (new List<TEntity>(), new PaginationInfo
+                {
+                    Items = 0,
+                    CurrentPage = 1,
+                    TotalPages = 1
+                });
+
             if (totalItems <= pagination.Offset)
                 throw new Exception("Offset exceeds maximum of items."); // TODO: create exception type and treat it on handler
 

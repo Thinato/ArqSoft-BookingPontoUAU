@@ -21,16 +21,19 @@ namespace Data.Guests
 
         public async Task<(IEnumerable<Guest>, PaginationInfo)> GetPaginated(PaginationQuery pagination)
         {
+            var query = _hotelDbContext.Guests.Where(g => g.DeletedAt == null);
             var result = await _paginationService.Paginate(
-                _hotelDbContext.Guests,
+                query,
                 pagination.ToOptions());
-            
+
             return result;
         }
 
         public async Task<Guest?> Update(Guest guest)
         {
-            var currentGuest = await _hotelDbContext.Guests.SingleOrDefaultAsync(r => r.Id.Equals(guest.Id));
+            var currentGuest = await _hotelDbContext.Guests.SingleOrDefaultAsync(g =>
+                g.Id.Equals(guest.Id) &&
+                g.DeletedAt == null);
 
             if (currentGuest is null)
                 return null;
@@ -50,7 +53,7 @@ namespace Data.Guests
 
         async Task<Guest?> IGuestRepository.Get(int Id)
         {
-            return await _hotelDbContext.Guests?.Where(g => g.Id == Id).SingleOrDefaultAsync()!;
+            return await _hotelDbContext.Guests?.Where(g => g.Id == Id && g.DeletedAt == null).SingleOrDefaultAsync()!;
         }
     }
 }
