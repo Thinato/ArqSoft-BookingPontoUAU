@@ -9,6 +9,7 @@ namespace Application.Ports
         Task<GuestResponse> CreateGuest(CreateGuestRequest request);
         Task<GuestResponse> GetGuest(int guestId);
         Task<GuestResponse> DeleteGuest(int guestId);
+        Task<GuestResponse> UpdateGuest(int id, UpdateGuestRequest request);
         Task<GuestListResponse> GetManyGuests(PaginationQuery pagination);
     }
 }

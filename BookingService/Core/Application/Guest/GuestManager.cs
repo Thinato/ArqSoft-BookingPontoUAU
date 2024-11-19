@@ -139,5 +139,30 @@ namespace Application.Guests
                 PaginationInfo = result.Item2,
             };
         }
+
+        public async Task<GuestResponse> UpdateGuest(int id, UpdateGuestRequest request)
+        {
+            var guest = await _guestRepository.Get(id);
+
+            if (guest is null)
+            {
+                return new GuestResponse
+                {
+                    Success = false,
+                    ErrorCode = ErrorCode.GUEST_NOT_FOUND,
+                    Message = "No guest record was found with the given id"
+                };
+            }
+
+            _mapper.Map(request, guest);
+
+            await _guestRepository.Update(guest);
+
+            return new GuestResponse
+            {
+                Success = true,
+                Data = GuestDto.MapToDto(guest),
+            };
+        }
     }
 }

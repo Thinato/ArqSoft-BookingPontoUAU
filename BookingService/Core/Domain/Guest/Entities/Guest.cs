@@ -53,5 +53,4 @@ public class Guest
 
 
     public void Delete() => DeletedAt = DateTime.Now;
-
 }
