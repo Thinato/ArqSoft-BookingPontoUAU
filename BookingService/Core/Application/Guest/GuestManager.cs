@@ -6,6 +6,8 @@ using Application.Responses;
 using AutoMapper;
 using Domain.Guests.Exceptions;
 using Domain.Guests.Ports;
+using Microsoft.Identity.Client;
+using Shared.Pagination;
 
 namespace Application.Guests
 {
@@ -97,6 +99,18 @@ namespace Application.Guests
             {
                 Success = true,
                 Data = GuestDto.MapToDto(guest),
+            };
+        }
+
+        public async Task<GuestListResponse> GetManyGuests(
+                PaginationQuery pagination)
+        {
+            var result = await _guestRepository.GetPaginated(pagination);
+
+            return new GuestListResponse
+            {
+                Data = result.Item1.Select(GuestDto.MapToDto),
+                PaginationInfo = result.Item2,
             };
         }
     }
