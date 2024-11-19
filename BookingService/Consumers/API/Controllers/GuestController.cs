@@ -69,6 +69,16 @@ namespace API.Controllers
             return NotFound(res);
         }
 
+        [HttpDelete]
+        public async Task<ActionResult<bool>> Delete(int id)
+        {
+            var res = await _guestManager.DeleteGuest(id);
+
+            if (res.Success) return Ok(true);
+
+            return NotFound(res);
+        }
+
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<GuestListResponse>> GetMany(

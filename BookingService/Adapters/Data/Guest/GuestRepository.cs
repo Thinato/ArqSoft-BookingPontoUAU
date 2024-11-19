@@ -28,6 +28,19 @@ namespace Data.Guests
             return result;
         }
 
+        public async Task<Guest?> Update(Guest guest)
+        {
+            var currentGuest = await _hotelDbContext.Guests.SingleOrDefaultAsync(r => r.Id.Equals(guest.Id));
+
+            if (currentGuest is null)
+                return null;
+
+            _hotelDbContext.Entry(currentGuest).CurrentValues.SetValues(guest);
+            await _hotelDbContext.SaveChangesAsync();
+
+            return guest;
+        }
+
         async Task<Guest> IGuestRepository.Create(Guest guest)
         {
             _hotelDbContext.Guests.Add(guest);

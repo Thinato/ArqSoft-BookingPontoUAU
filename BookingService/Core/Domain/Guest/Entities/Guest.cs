@@ -12,6 +12,11 @@ public class Guest
     public string? Surname { get; set; }
     public string? Email { get; set; }
     public PersonId? DocumentId { get; set; }
+    public DateTime? DeletedAt { get; set; }
+    public bool IsDeleted
+    {
+        get { return true ? DeletedAt == null : false; }
+    }
 
     public IEnumerable<Booking> Bookings = [];
 
@@ -37,10 +42,16 @@ public class Guest
         {
             throw new InvalidEmailException();
         }
+
+        if (DeletedAt != null)
+        {
+            throw new GuestDeletedException();
+        }
     }
 
-    public override string ToString()
-    {
-        return $"Id: {Id},\nName: {Name},\nSurname: {Surname},\nEmail: {Email},\nDocumentId: {{ {DocumentId} }}";
-    }
+    public override string ToString() => $"Id: {Id},\nName: {Name},\nSurname: {Surname},\nEmail: {Email},\nDocumentId: {{ {DocumentId} }}";
+
+
+    public void Delete() => DeletedAt = DateTime.Now;
+
 }

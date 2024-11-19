@@ -1,4 +1,4 @@
 ﻿namespace Domain.Guests.Exceptions;
-public class GuestHasInvalidInformation
+public class GuestHasInvalidInformation : Exception
 {
 }

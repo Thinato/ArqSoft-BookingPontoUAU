@@ -81,11 +81,36 @@ namespace Application.Guests
             }
         }
 
-        public async Task<GuestResponse> GetGuest(int guestId)
+        public async Task<GuestResponse> DeleteGuest(int guestId)
         {
             var guest = await _guestRepository.Get(guestId);
 
             if (guest is null)
+            {
+                return new GuestResponse
+                {
+                    Success = false,
+                    ErrorCode = ErrorCode.GUEST_NOT_FOUND,
+                    Message = "No guest record was found with the given id"
+                };
+            }
+
+            guest.Delete();
+
+            await _guestRepository.Update(guest);
+
+            return new GuestResponse
+            {
+                Success = true,
+                Message = "Guest deleted successfully",
+            };
+        }
+
+        public async Task<GuestResponse> GetGuest(int guestId)
+        {
+            var guest = await _guestRepository.Get(guestId);
+
+            if (guest is null || guest.IsDeleted)
             {
                 return new GuestResponse
                 {

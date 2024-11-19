@@ -6,5 +6,5 @@ public interface IGuestRepository
 {
     Task<Guest?> Get(int Id);
     Task<Guest> Create(Guest guest);
-    Task<(IEnumerable<Guest>, PaginationInfo)> GetPaginated(PaginationQuery pagination);
+    Task<Guest?> Update(Guest guest);    Task<(IEnumerable<Guest>, PaginationInfo)> GetPaginated(PaginationQuery pagination);
 }
