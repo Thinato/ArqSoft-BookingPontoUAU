@@ -11,7 +11,7 @@ namespace ApplicationTest
 {
     public class PaginationTests
     {
-        private PaginationService<Room> _paginationService;
+        private PaginationService _paginationService;
         private IQueryable<Room> _mockedQuery;
 
         [SetUp]
@@ -29,7 +29,7 @@ namespace ApplicationTest
                         })
                     .AsQueryable();
             
-            _paginationService = new PaginationService<Room>();
+            _paginationService = new PaginationService();
         }
 
         [TestCase(1, 10)]
