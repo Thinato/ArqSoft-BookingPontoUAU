@@ -9,6 +9,7 @@ using Domain.Bookings.Enums;
 using Domain.Bookings.Ports;
 using Domain.Guests.Ports;
 using Domain.Rooms.Ports;
+using Domain.Rooms.ValueObjects;
 using Shared.Pagination;
 
 namespace Application.Bookings
@@ -43,6 +44,10 @@ namespace Application.Bookings
 
             var room = await _roomRepo.GetRoom(request.RoomId)
                     ?? throw new NotFoundException("Room not found.");
+            
+            var occupationResult = room.Occupy();
+            if (occupationResult is OccupyResult.Failed f)
+                throw new OccupationOpException("Room was unavailable.", f);
 
             var status = Enum.Parse<Status>(request.Status, true);
 
