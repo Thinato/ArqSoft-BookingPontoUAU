@@ -2,6 +2,7 @@
 using Application.Guests.Requests;
 using Application.Ports;
 using Application.Responses;
+using Domain.Guests.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Pagination;
 
@@ -25,12 +26,12 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<GuestDto>> Post(GuestDto guest)
         {
-            var resquest = new CreateGuestRequest
+            var request = new CreateGuestRequest
             {
                 Data = guest,
             };
 
-            var res = await _guestManager.CreateGuest(resquest);
+            var res = await _guestManager.CreateGuest(request);
 
             if (res.Success) return Created("", res.Data);
 
@@ -69,6 +70,16 @@ namespace API.Controllers
             return NotFound(res);
         }
 
+        [HttpDelete]
+        public async Task<ActionResult<bool>> Delete(int id)
+        {
+            var res = await _guestManager.DeleteGuest(id);
+
+            if (res.Success) return Ok(true);
+
+            return NotFound(res);
+        }
+
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<GuestListResponse>> GetMany(
@@ -76,6 +87,18 @@ namespace API.Controllers
         {
             var result = await _guestManager.GetManyGuests(query);
             return Ok(result);
+        }
+
+        [HttpPatch]
+        public async Task<ActionResult<GuestResponse>> Update(
+            [FromQuery] int guestId,
+            UpdateGuestRequest request)
+        {
+            var res = await _guestManager.UpdateGuest(guestId, request);
+
+            if (res.Success) return Ok(res.Data);
+
+            return NotFound(res);
         }
     }
 }

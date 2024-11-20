@@ -81,11 +81,36 @@ namespace Application.Guests
             }
         }
 
-        public async Task<GuestResponse> GetGuest(int guestId)
+        public async Task<GuestResponse> DeleteGuest(int guestId)
         {
             var guest = await _guestRepository.Get(guestId);
 
             if (guest is null)
+            {
+                return new GuestResponse
+                {
+                    Success = false,
+                    ErrorCode = ErrorCode.GUEST_NOT_FOUND,
+                    Message = "No guest record was found with the given id"
+                };
+            }
+
+            guest.Delete();
+
+            await _guestRepository.Update(guest);
+
+            return new GuestResponse
+            {
+                Success = true,
+                Message = "Guest deleted successfully",
+            };
+        }
+
+        public async Task<GuestResponse> GetGuest(int guestId)
+        {
+            var guest = await _guestRepository.Get(guestId);
+
+            if (guest is null || guest.IsDeleted)
             {
                 return new GuestResponse
                 {
@@ -112,6 +137,31 @@ namespace Application.Guests
                 Success = true,
                 Data = result.Item1.Select(GuestDto.MapToDto),
                 PaginationInfo = result.Item2,
+            };
+        }
+
+        public async Task<GuestResponse> UpdateGuest(int id, UpdateGuestRequest request)
+        {
+            var guest = await _guestRepository.Get(id);
+
+            if (guest is null)
+            {
+                return new GuestResponse
+                {
+                    Success = false,
+                    ErrorCode = ErrorCode.GUEST_NOT_FOUND,
+                    Message = "No guest record was found with the given id"
+                };
+            }
+
+            _mapper.Map(request, guest);
+
+            await _guestRepository.Update(guest);
+
+            return new GuestResponse
+            {
+                Success = true,
+                Data = GuestDto.MapToDto(guest),
             };
         }
     }

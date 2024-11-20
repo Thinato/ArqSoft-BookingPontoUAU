@@ -15,6 +15,7 @@ namespace Data.Guests
             builder.Property(e => e.Name).HasColumnType("text");
             builder.Property(e => e.Surname).HasColumnType("text");
             builder.Property(e => e.Email).HasColumnType("text");
+            builder.Property(e => e.DeletedAt).HasColumnType("TimeStamp");
 
             builder.OwnsOne(e => e.DocumentId, document =>
             {
