@@ -12,6 +12,7 @@ namespace Data.Rooms
 
             builder.Property(e => e.Name).HasColumnType("text");
             builder.Property(e => e.Level).HasColumnType("integer");
+            builder.Property(e => e.InCleaning).HasColumnType("boolean").HasDefaultValue(false);
             builder.Property(e => e.InMaintenance).HasColumnType("boolean");
             builder.Property(e => e.HasGuest).HasColumnType("boolean");
 

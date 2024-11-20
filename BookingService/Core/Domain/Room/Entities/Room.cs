@@ -8,6 +8,7 @@ public class Room
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public int Level { get; set; }
+    public bool InCleaning { get; set; }
     public bool InMaintenance { get; set; }
     public bool HasGuest { get; set; }
 
