@@ -13,7 +13,7 @@ public class Room
 
     public Price? Price { get; set; }
 
-    public bool IsAvailable => InMaintenance || HasGuest;
+    public bool IsAvailable => !InMaintenance && !HasGuest;
 
     public IEnumerable<Booking> Bookings = [];
 

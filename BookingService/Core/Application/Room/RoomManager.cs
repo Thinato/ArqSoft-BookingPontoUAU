@@ -105,10 +105,18 @@ namespace Application.Rooms
 
             var result = operation.Invoke();
 
-            return result switch {
-                OccupyResult.Succeeded s => new RoomResponse { Success = true, Data = RoomDto.MapToDto(s.Room) },
+            var success = result switch {
+                OccupyResult.Succeeded s => s,
                 OccupyResult.Failed f => throw new OccupationOpException("Operation failed.", f),
                 _ => throw new Exception(),
+            };
+
+            await _repository.UpdateRoom(room);
+
+            return new RoomResponse
+            {
+                Success = true,
+                Data = RoomDto.MapToDto(success.Room)
             };
         }
 

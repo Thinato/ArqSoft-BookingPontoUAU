@@ -4,6 +4,6 @@ namespace Application.Rooms.Responses
 {
     public class RoomResponse : Response
     {
-        public RoomDto? Data;
+        public RoomDto? Data { get; set; }
     }
 }

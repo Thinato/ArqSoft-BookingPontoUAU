@@ -5,8 +5,9 @@ namespace Application.Rooms.Requests
         Disocuppy,
     }
 
-    public readonly record struct OccupationOpQuery(
-        int RoomId,
-        OccupationOp Operation
-    );
+    public class OccupationOpQuery
+    {
+        public int RoomId { get; set; }
+        public OccupationOp Operation { get; set; }
+    }
 }
