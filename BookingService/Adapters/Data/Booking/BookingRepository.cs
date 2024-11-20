@@ -31,9 +31,11 @@ namespace Data.Bookings
 
         public async Task<Booking?> Get(int bookingId)
         {
-            var booking = await _dbSet.SingleOrDefaultAsync(b =>
-                    b.Id.Equals(bookingId));
-            
+            var booking = await _dbSet
+                    .Include(b => b.Guest)
+                    .Include(b => b.Room)
+                    .SingleOrDefaultAsync(b => b.Id.Equals(bookingId));
+
             return booking;
         }
 
@@ -63,7 +65,7 @@ namespace Data.Bookings
         {
             var query = _dbSet.Include(b => b.Room)
                     .Where(b => b.Room.Id.Equals(roomId));
-            
+
             var options = pagination.ToOptions();
 
             return await _paginationService.Paginate(query, options);
