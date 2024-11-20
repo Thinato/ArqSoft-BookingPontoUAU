@@ -1,6 +1,5 @@
 ﻿using Domain.Bookings.Entities;
 using Domain.Rooms.ValueObjects;
-using Domain.Rooms.ValueObjects;
 
 namespace Domain.Rooms.Entities;
 public class Room
@@ -20,8 +19,10 @@ public class Room
 
     public OccupyResult Occupy()
     {
-        if (!IsAvailable)
-            return new OccupyResult.Failed(HasGuest, InMaintenance);
+        bool canOccupy = IsAvailable && !InCleaning;
+
+        if (!canOccupy)
+            return new OccupyResult.Failed(HasGuest, InMaintenance, InCleaning);
 
         HasGuest = true;
 
