@@ -5,7 +5,7 @@ namespace Application.Bookings.Responses
 {
     public class BookingResponseList : Response
     {
-        public IEnumerable<BookingDto>? Data;
-        public PaginationInfo? Pagination;
+        public IEnumerable<BookingDto>? Data { get; set; }
+        public PaginationInfo? Pagination { get; set; }
     }
 }
