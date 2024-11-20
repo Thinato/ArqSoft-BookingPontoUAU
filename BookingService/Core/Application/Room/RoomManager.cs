@@ -92,9 +92,9 @@ namespace Application.Rooms
             return result;
         }
 
-        public async Task<RoomResponse> OccupyDesoccupyRoom(int roomId, OccupationOpQuery query)
+        public async Task<RoomResponse> OccupyDesoccupyRoom(OccupationOpQuery query)
         {
-            var room = await _repository.GetRoom(roomId)
+            var room = await _repository.GetRoom(query.RoomId)
                 ?? throw new NotFoundException("Room not found.");
 
             Func<OccupyResult> operation = query.Operation switch {

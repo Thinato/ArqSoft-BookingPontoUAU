@@ -46,7 +46,16 @@ namespace API.Controllers
 
             _logger.LogError("Response with unkwn ErrorCode Returned", res);
             return BadRequest();
+        }
 
+        [HttpPut]
+        [Route("occupation")]
+        public async Task<ActionResult<RoomDto>> PutOccupation(
+            [FromQuery] OccupationOpQuery query)
+        {
+            var result = await _roomManager.OccupyDesoccupyRoom(query);
+            
+            return Ok(result);
         }
 
         [HttpGet()]
@@ -65,16 +74,6 @@ namespace API.Controllers
             var res = await _roomManager.GetRooms(pagination);
 
             return Created("", res);
-        }
-
-        [HttpPut]
-        public async Task<ActionResult> PutInMaintenance([FromQuery]int roomId)
-        {
-            var res = await _roomManager.PutInMaintanence(roomId);
-
-            if (res) return Ok();
-
-            return NotFound();
         }
 
         [HttpPatch]

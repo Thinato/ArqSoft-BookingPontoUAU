@@ -6,6 +6,7 @@ namespace Application.Rooms.Requests
     }
 
     public readonly record struct OccupationOpQuery(
+        int RoomId,
         OccupationOp Operation
     );
 }

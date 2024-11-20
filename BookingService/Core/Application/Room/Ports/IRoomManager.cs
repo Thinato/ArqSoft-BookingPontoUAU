@@ -11,6 +11,6 @@ namespace Application.Ports
         public Task<RoomResponseList> GetRooms(PaginationQuery pagination);
         public Task<RoomResponse> GetRoom(int roomId);
         public Task<RoomResponse> UpdateRoom(int roomId, UpdateRoomRequest request);
-        public Task<RoomResponse> OccupyDesoccupyRoom(int roomId, OccupationOpQuery query);
+        public Task<RoomResponse> OccupyDesoccupyRoom(OccupationOpQuery query);
     }
 }
