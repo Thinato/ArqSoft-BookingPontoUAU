@@ -1,3 +1,4 @@
+using Application.Errors;
 using Microsoft.AspNetCore.Diagnostics;
 
 namespace API.Middlewares
@@ -13,7 +14,9 @@ namespace API.Middlewares
         {
             var error = exception switch
             {
-                
+                NotFoundException e => new Error(StatusCodes.Status404NotFound, e.Message),
+                UpdateException e => new Error(StatusCodes.Status500InternalServerError, e.Message),
+                OccupationOpException e => new Error(StatusCodes.Status400BadRequest, e.Message, e.Fail),
                 _ => new Error(StatusCodes.Status500InternalServerError, "Unknown server error.")
             };
 
