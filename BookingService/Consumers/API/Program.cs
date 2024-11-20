@@ -36,6 +36,7 @@ var connectionString = builder.Configuration.GetConnectionString("Main");
 builder.Services.AddDbContext<HotelDbContext>(
     options => options.UseNpgsql(connectionString));
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 #endregion
 
 builder.Services.AddExceptionHandler<ErrorHandlingMiddleware>();

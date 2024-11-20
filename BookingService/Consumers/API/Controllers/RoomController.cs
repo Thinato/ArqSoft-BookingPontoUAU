@@ -82,7 +82,7 @@ namespace API.Controllers
                 [FromBody] UpdateRoomRequest payload)
         {
             var res = await _roomManager.UpdateRoom(roomId, payload);
-            
+
             return new OkObjectResult(res);
         }
     }

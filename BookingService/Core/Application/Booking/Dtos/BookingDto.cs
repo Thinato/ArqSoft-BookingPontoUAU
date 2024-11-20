@@ -33,6 +33,9 @@ public class BookingDto
             PlacedAt = booking.PlacedAt,
             Start = booking.Start,
             End = booking.End,
+            GuestId = booking.Guest.Id,
+            RoomId = booking.Room.Id,
+            StatusId = (int)booking.Status
         };
     }
 

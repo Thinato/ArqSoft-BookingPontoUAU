@@ -43,7 +43,7 @@ namespace Application.Bookings
 
             var room = await _roomRepo.GetRoom(request.RoomId)
                     ?? throw new NotFoundException("Room not found.");
-            
+
             var status = Enum.Parse<Status>(request.Status, true);
 
             var newBooking = new Booking()
@@ -55,14 +55,11 @@ namespace Application.Bookings
 
             _mapper.Map(request, newBooking);
 
-            Console.WriteLine("1");
-
             var savedBooking = await _repo.Create(newBooking);
-
-            Console.WriteLine("2");
 
             return new BookingResponse()
             {
+                Success = true,
                 Data = BookingDto.MapToDto(savedBooking)
             };
         }
@@ -74,6 +71,7 @@ namespace Application.Bookings
 
             return new BookingResponse()
             {
+                Success = true,
                 Data = BookingDto.MapToDto(booking)
             };
         }
@@ -81,7 +79,7 @@ namespace Application.Bookings
         public async Task<BookingResponseList> GetBookings(PaginationQuery pagination)
         {
             var bookingsFetch = await _repo.ListBookings(pagination);
-            
+
             return new BookingResponseList()
             {
                 Data = bookingsFetch.Item1.Select(BookingDto.MapToDto),
@@ -95,6 +93,7 @@ namespace Application.Bookings
 
             return new BookingResponseList()
             {
+                Success = true,
                 Data = bookingsList.Item1.Select(BookingDto.MapToDto),
                 Pagination = bookingsList.Item2
             };
@@ -106,6 +105,7 @@ namespace Application.Bookings
 
             return new BookingResponseList()
             {
+                Success = true,
                 Data = bookingsList.Item1.Select(BookingDto.MapToDto),
                 Pagination = bookingsList.Item2
             };
