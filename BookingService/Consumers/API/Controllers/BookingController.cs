@@ -51,7 +51,7 @@ namespace API.Controllers
         {
             var res = await _bookingManager.GetBooking(id);
 
-            if (res.Success) return Created("", res.Data);
+            if (res.Success) return Ok(res.Data);
 
             return NotFound(res);
         }
