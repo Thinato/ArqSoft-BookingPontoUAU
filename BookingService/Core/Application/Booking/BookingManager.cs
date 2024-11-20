@@ -48,6 +48,7 @@ namespace Application.Bookings
             var occupationResult = room.Occupy();
             if (occupationResult is OccupyResult.Failed f)
                 throw new OccupationOpException("Room was unavailable.", f);
+            
 
             var status = Enum.Parse<Status>(request.Status, true);
 
@@ -60,6 +61,7 @@ namespace Application.Bookings
 
             _mapper.Map(request, newBooking);
 
+            await _roomRepo.UpdateRoom(room);
             var savedBooking = await _repo.Create(newBooking);
 
             return new BookingResponse()
