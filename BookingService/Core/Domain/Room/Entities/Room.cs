@@ -1,5 +1,5 @@
 ﻿using Domain.Bookings.Entities;
-using Domain.Room.ValueObjects;
+using Domain.Rooms.ValueObjects;
 using Domain.Rooms.ValueObjects;
 
 namespace Domain.Rooms.Entities;
@@ -24,17 +24,17 @@ public class Room
         
         HasGuest = true;
 
-        return new OccupyResult.Succeeded();
+        return new OccupyResult.Succeeded(this);
     }
 
-    public DisoccupyResult Disoccupy()
+    public OccupyResult Disoccupy()
     {
         if (IsAvailable)
-            return new DisoccupyResult.Failed();
+            return new OccupyResult.Failed(HasGuest, InMaintenance);
         
         HasGuest = false;
 
-        return new DisoccupyResult.Succeeded();
+        return new OccupyResult.Succeeded(this);
     }
 
     public bool PutInMaintanance() => InMaintenance = true;

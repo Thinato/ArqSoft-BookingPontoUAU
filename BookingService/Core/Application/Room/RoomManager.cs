@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Application.Errors;
 using Application.Ports;
@@ -7,6 +8,7 @@ using Application.Rooms.Responses;
 using AutoMapper;
 using Domain.Rooms.Entities;
 using Domain.Rooms.Ports;
+using Domain.Rooms.ValueObjects;
 using Shared.Pagination;
 
 namespace Application.Rooms
@@ -90,37 +92,32 @@ namespace Application.Rooms
             return result;
         }
 
-        public async Task<bool> PutInMaintanence(int roomId)
+        public async Task<RoomResponse> OccupyDesoccupyRoom(int roomId, OccupationOpQuery query)
         {
-            var repoRoom = await _repository.GetRoom(roomId)
-                    ?? throw new NotFoundException("Room not found.");
+            var room = await _repository.GetRoom(roomId)
+                ?? throw new NotFoundException("Room not found.");
 
-            if (repoRoom.InMaintenance)
-            {
-                return true;
-            }
+            Func<OccupyResult> operation = query.Operation switch {
+                OccupationOp.Occupy => room.Occupy,
+                OccupationOp.Disocuppy => room.Disoccupy,
+                _ => throw new Exception("Operation not acceptable."),
+            };
 
-            var sucess = repoRoom.PutInMaintanance();
+            var result = operation.Invoke();
 
-            if (sucess)
-            {
-                await _repository.UpdateRoom(repoRoom);
-                return true;
-            }
-
-            return false;
+            return result switch {
+                OccupyResult.Succeeded s => new RoomResponse { Success = true, Data = RoomDto.MapToDto(s.Room) },
+                OccupyResult.Failed f => throw new OccupationOpException("Operation failed.", f),
+                _ => throw new Exception(),
+            };
         }
 
         public async Task<RoomResponse> UpdateRoom(int roomId, UpdateRoomRequest request)
         {
             var room = await _repository.GetRoom(roomId)
                     ?? throw new NotFoundException("Room not found.");
-
-            System.Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(request));
             
             _mapper.Map(request, room);
-
-            System.Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(room));
 
             var savedRoom = await _repository.UpdateRoom(room)
                     ?? throw new UpdateException("Invalid room state for update.");

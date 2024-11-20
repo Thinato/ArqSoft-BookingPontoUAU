@@ -8,9 +8,9 @@ namespace Application.Ports
     public interface IRoomManager
     {
         public Task<RoomResponse> Create(CreateRoomRequest request);
-        public Task<bool> PutInMaintanence(int roomId);
         public Task<RoomResponseList> GetRooms(PaginationQuery pagination);
         public Task<RoomResponse> GetRoom(int roomId);
         public Task<RoomResponse> UpdateRoom(int roomId, UpdateRoomRequest request);
+        public Task<RoomResponse> OccupyDesoccupyRoom(int roomId, OccupationOpQuery query);
     }
 }

@@ -1,4 +1,4 @@
-namespace Domain.Room.ValueObjects
+namespace Domain.Rooms.ValueObjects
 {
     public abstract record DisoccupyResult
     {
