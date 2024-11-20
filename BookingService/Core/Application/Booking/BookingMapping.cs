@@ -43,6 +43,11 @@ public class BookingMapping : Profile
             .ForMember(dest => dest.Status,
                     opt => opt.Ignore());
 
+        CreateMap<CreateBookingRequest, Booking>()
+            .ForMember(dest => dest.Status, opt => opt.Ignore())
+            .ForMember(dest => dest.Room, opt => opt.Ignore())
+            .ForMember(dest => dest.Guest, opt => opt.Ignore());
+
         CreateMap<Guest, GuestDto>();
         CreateMap<PersonId, PersonId>();
     }

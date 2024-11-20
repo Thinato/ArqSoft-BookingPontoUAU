@@ -55,7 +55,11 @@ namespace Application.Bookings
 
             _mapper.Map(request, newBooking);
 
+            Console.WriteLine("1");
+
             var savedBooking = await _repo.Create(newBooking);
+
+            Console.WriteLine("2");
 
             return new BookingResponse()
             {
