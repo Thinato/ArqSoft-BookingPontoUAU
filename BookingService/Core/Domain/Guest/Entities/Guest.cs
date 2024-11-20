@@ -18,7 +18,7 @@ public class Guest
         get { return true ? DeletedAt == null : false; }
     }
 
-    public IEnumerable<Booking> Bookings = [];
+    public IEnumerable<Booking>? Bookings;
 
     public void ValidateState()
     {

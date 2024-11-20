@@ -15,13 +15,13 @@ public class Room
 
     public bool IsAvailable => !InMaintenance && !HasGuest;
 
-    public IEnumerable<Booking> Bookings = [];
+    public IEnumerable<Booking>? Bookings;
 
     public OccupyResult Occupy()
     {
         if (!IsAvailable)
             return new OccupyResult.Failed(HasGuest, InMaintenance);
-        
+
         HasGuest = true;
 
         return new OccupyResult.Succeeded(this);
@@ -31,7 +31,7 @@ public class Room
     {
         if (IsAvailable)
             return new OccupyResult.Failed(HasGuest, InMaintenance);
-        
+
         HasGuest = false;
 
         return new OccupyResult.Succeeded(this);
