@@ -44,14 +44,20 @@ namespace Data.Bookings
         {
             var options = pagination.ToOptions();
 
-            return await _paginationService.Paginate(_dbSet, options);
+            var query = _dbSet
+                    .Include(b => b.Guest)
+                    .Include(b => b.Room);
+
+            return await _paginationService.Paginate(query, options);
         }
 
         public async Task<(IEnumerable<Booking>, PaginationInfo)> ListBookingsByGuest(
                 int guestId,
                 PaginationQuery pagination)
         {
-            var query = _dbSet.Include(b => b.Guest)
+            var query = _dbSet
+                    .Include(b => b.Guest)
+                    .Include(b => b.Room)
                     .Where(b => b.Guest.Id.Equals(guestId));
 
             var options = pagination.ToOptions();
@@ -63,7 +69,9 @@ namespace Data.Bookings
                 int roomId,
                 PaginationQuery pagination)
         {
-            var query = _dbSet.Include(b => b.Room)
+            var query = _dbSet
+                    .Include(b => b.Guest)
+                    .Include(b => b.Room)
                     .Where(b => b.Room.Id.Equals(roomId));
 
             var options = pagination.ToOptions();

@@ -66,28 +66,28 @@ namespace API.Controllers
             return NotFound(res);
         }
 
-        [HttpPut("pay")]
-        public async Task<ActionResult<BookingDto>> PayBooking(CreateBookingRequest request)
-        {
-            var res = await _bookingManager.PayBooking(request);
+        // [HttpPut("pay")]
+        // public async Task<ActionResult<BookingDto>> PayBooking(CreateBookingRequest request)
+        // {
+        //     var res = await _bookingManager.PayBooking(request);
 
-            if (res.Success) return Created("", res.Data);
+        //     if (res.Success) return Created("", res.Data);
 
-            if (res.ErrorCode == Application.ErrorCode.NOT_FOUND)
-            {
-                return BadRequest(res);
-            }
-            else if (res.ErrorCode == Application.ErrorCode.MISSING_REQUIRED_INFORMATION)
-            {
-                return BadRequest(res);
-            }
-            else if (res.ErrorCode == Application.ErrorCode.COULD_NOT_STORE_DATA)
-            {
-                return BadRequest(res);
-            }
+        //     if (res.ErrorCode == Application.ErrorCode.NOT_FOUND)
+        //     {
+        //         return BadRequest(res);
+        //     }
+        //     else if (res.ErrorCode == Application.ErrorCode.MISSING_REQUIRED_INFORMATION)
+        //     {
+        //         return BadRequest(res);
+        //     }
+        //     else if (res.ErrorCode == Application.ErrorCode.COULD_NOT_STORE_DATA)
+        //     {
+        //         return BadRequest(res);
+        //     }
 
-            _logger.LogError("Response with unkwn ErrorCode Returned", res);
-            return BadRequest();
-        }
+        //     _logger.LogError("Response with unkwn ErrorCode Returned", res);
+        //     return BadRequest();
+        // }
     }
 }

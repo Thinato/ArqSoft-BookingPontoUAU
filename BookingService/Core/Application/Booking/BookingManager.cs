@@ -89,6 +89,7 @@ namespace Application.Bookings
 
             return new BookingResponseList()
             {
+                Success = true,
                 Data = bookingsFetch.Item1.Select(BookingDto.MapToDto),
                 Pagination = bookingsFetch.Item2
             };
